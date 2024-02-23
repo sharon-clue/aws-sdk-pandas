@@ -348,7 +348,7 @@ def to_iceberg(
     ... )
 
     """
-    wg_config: _WorkGroupConfig = _get_workgroup_config(session=boto3_session, workgroup=workgroup)
+    wg_config: _WorkGroupConfig = _get_workgroup_config(session=boto3_session, workgroup=workgroup,temp_path=temp_path)
     temp_table: str = f"temp_table_{uuid.uuid4().hex}"
 
     _validate_args(

@@ -136,7 +136,7 @@ def _start_query_execution(
     return response["QueryExecutionId"]
 
 
-def _get_workgroup_config(session: boto3.Session | None = None, workgroup: str = "primary") -> _WorkGroupConfig:
+def _get_workgroup_config(session: boto3.Session | None = None, workgroup: str = "primary",temp_path: str = None) -> _WorkGroupConfig:
     enforced: bool
     wg_s3_output: str | None
     wg_encryption: str | None
@@ -148,7 +148,7 @@ def _get_workgroup_config(session: boto3.Session | None = None, workgroup: str =
         enforced = res["WorkGroup"]["Configuration"]["EnforceWorkGroupConfiguration"]
         config: dict[str, Any] = res["WorkGroup"]["Configuration"].get("ResultConfiguration")
         if config is not None:
-            wg_s3_output = config.get("OutputLocation")
+            wg_s3_output = config.get("OutputLocation") or temp_path
             encrypt_config: dict[str, str] | None = config.get("EncryptionConfiguration")
             wg_encryption = None if encrypt_config is None else encrypt_config.get("EncryptionOption")
             wg_kms_key = None if encrypt_config is None else encrypt_config.get("KmsKey")
