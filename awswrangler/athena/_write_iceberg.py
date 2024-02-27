@@ -371,6 +371,7 @@ def to_iceberg(
         )
 
     try:
+        print(f"s3_output: ",wg_config.s3_output)
         # Create Iceberg table if it doesn't exist
         if not catalog.does_table_exist(
             database=database, table=table, boto3_session=boto3_session, catalog_id=catalog_id
