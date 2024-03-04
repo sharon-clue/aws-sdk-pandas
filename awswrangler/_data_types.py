@@ -679,6 +679,8 @@ def athena_types_from_pandas_partitioned(
             columns_types[col] = typ
     partitions_types: dict[str, str] = {}
     for par in partitions:
+        # in case the partition is based on iceberg day(ts)/month(ts)/year(ts), field will be extracted from the function
+        par = par[par.find("(")+1:par.find(")")].replace("`","") if "(" in par else par
         partitions_types[par] = athena_columns_types[par]
     return columns_types, partitions_types
 
